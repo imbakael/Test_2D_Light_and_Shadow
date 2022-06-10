@@ -24,7 +24,7 @@ namespace FunkyCode.Rendering.Day
             
             material.mainTexture = null;
 
-            SpriteRendererShadow.currentTexture = null;
+            currentTexture = null;
 
             cameraOffset = offset;
             direction = -Lighting2D.DayLightingSettings.direction * Mathf.Deg2Rad;
@@ -36,7 +36,7 @@ namespace FunkyCode.Rendering.Day
             GL.End();
 
             material.mainTexture = null;
-            SpriteRendererShadow.currentTexture = null;
+            currentTexture = null;
         }
 
         static public void DrawOffset(DayLightCollider2D id)

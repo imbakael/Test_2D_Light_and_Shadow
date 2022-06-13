@@ -36,12 +36,12 @@ MonoBehaviour:
       layerSetting:
         list:
         - layerID: 0
-          type: 0
+          type: 1
           sorting: 0
           sortingIgnore: 0
           shadowEffect: 7
           shadowEffectLayer: 0
-          maskLit: 0
+          maskLit: 1
           maskLitDistance: 1
   eventPresets:
     list:
@@ -56,8 +56,8 @@ MonoBehaviour:
   qualitySettings:
     lightTextureSize: 1
     lightEffectTextureSize: 1
-    lightFilterMode: 1
-    lightmapFilterMode: 1
+    lightFilterMode: 0
+    lightmapFilterMode: 0
     updateMethod: 0
     coreAxis: 0
     projection: 0

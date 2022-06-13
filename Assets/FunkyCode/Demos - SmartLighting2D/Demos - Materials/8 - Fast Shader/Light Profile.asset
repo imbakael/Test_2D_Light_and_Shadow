@@ -39,9 +39,9 @@ MonoBehaviour:
           type: 0
           sorting: 0
           sortingIgnore: 0
-          shadowEffect: 2
+          shadowEffect: 7
           shadowEffectLayer: 0
-          maskLit: 0
+          maskLit: 1
           maskLitDistance: 1
   eventPresets:
     list:

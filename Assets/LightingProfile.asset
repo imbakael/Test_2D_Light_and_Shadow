@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b19cefa3bf552f94390d1c272b19ea6e, type: 3}
-  m_Name: LProfile Projection
+  m_Name: LightingProfile
   m_EditorClassIdentifier: 
   lightmapPresets:
     list:
@@ -41,7 +41,7 @@ MonoBehaviour:
           sortingIgnore: 0
           shadowEffect: 7
           shadowEffectLayer: 0
-          maskLit: 1
+          maskLit: 0
           maskLitDistance: 1
   eventPresets:
     list:
@@ -49,7 +49,7 @@ MonoBehaviour:
       layerSetting:
         list:
         - layerID: 0
-    - name: 'Preset (Id: 1)'
+    - name: Default
       layerSetting:
         list:
         - layerID: 0
@@ -62,9 +62,9 @@ MonoBehaviour:
     coreAxis: 0
     projection: 0
   dayLightingSettings:
-    direction: 224
+    direction: 270
     ShadowColor: {r: 0, g: 0, b: 0, a: 1}
-    height: 1.94
+    height: 1
     bumpMap:
       height: 1
       strength: 1

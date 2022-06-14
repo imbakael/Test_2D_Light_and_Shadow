@@ -11,7 +11,7 @@ public class Level : MonoBehaviour
     public const string DIRECTORY = "/SaveData/";
     public const float GRID_CELL_SIZE = 1f;
 
-    public PaletteItem.Category CurrentCategory { get; set; } = PaletteItem.Category.Misc;
+    public PaletteItem.Category CurrentCategory { get; set; } = PaletteItem.Category.Ground;
     public Transform[] Layers { get; set; }
     public int TotalColumns { get; set; } = 15;
     public int TotalRows { get; set; } = 10;
@@ -149,7 +149,8 @@ public class Level : MonoBehaviour
             var child = new GameObject(name);
             child.transform.SetParent(transform);
             SortingGroup sortingGroup = child.AddComponent<SortingGroup>();
-            sortingGroup.sortingOrder = i * 3;
+            sortingGroup.sortingLayerName = "MySprites";
+            sortingGroup.sortingOrder = i * 2;
         }
         transform.hideFlags = HideFlags.NotEditable;
         Load();

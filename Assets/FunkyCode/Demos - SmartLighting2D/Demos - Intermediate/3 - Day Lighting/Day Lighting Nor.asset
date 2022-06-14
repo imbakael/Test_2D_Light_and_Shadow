@@ -16,6 +16,7 @@ MonoBehaviour:
     list:
     - name: Default
       type: 0
+      hdr: 1
       darknessColor: {r: 0.108022995, g: 0.11548707, b: 0.16912857, a: 0.053971574}
       depth: -100
       resolution: 1
@@ -65,16 +66,16 @@ MonoBehaviour:
         list:
         - layerID: 0
   qualitySettings:
-    HDR: 1
     lightTextureSize: 1
     lightEffectTextureSize: 1
     lightFilterMode: 1
+    lightmapFilterMode: 1
     updateMethod: 0
     coreAxis: 0
     projection: 0
   dayLightingSettings:
-    alpha: 0.4736512
     direction: 220.31999
+    ShadowColor: {r: 0, g: 0, b: 0, a: 0.4736512}
     height: 1
     bumpMap:
       height: 1

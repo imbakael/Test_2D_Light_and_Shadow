@@ -118,6 +118,7 @@ public class Level : MonoBehaviour
     }
     #endregion
 
+    #region Tool function
     public Vector3Int WorldToGridCoordinates(Vector3 point) {
         float deltaX = point.x - transform.position.x;
         float deltaY = point.y - transform.position.y;
@@ -141,6 +142,7 @@ public class Level : MonoBehaviour
     }
 
     public bool IsInsideGridBounds(int col, int row) => col >= 0 && col < TotalColumns && row >= 0 && row < TotalRows;
+    #endregion
 
     public void InitLevel(string fileName) {
         this.fileName = fileName;

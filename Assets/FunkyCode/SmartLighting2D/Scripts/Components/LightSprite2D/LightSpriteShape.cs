@@ -94,12 +94,12 @@ namespace FunkyCode
 		{
 			if (worldPolygon != null)
 			{
-				return(worldPolygon);
+				return worldPolygon;
 			}
 
 			if (transform == null)
 			{
-				return(null);
+				return null;
 			}
 
 			Vector2 position = LightingPosition.GetPosition2D(transform.position);
@@ -147,7 +147,7 @@ namespace FunkyCode
 
 			worldrect = worldPolygon.GetRect();
 
-			return(worldPolygon);
+			return worldPolygon;
 		}
 
 		private Polygon2 polygon = null;

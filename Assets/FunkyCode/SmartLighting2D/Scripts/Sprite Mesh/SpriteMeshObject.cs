@@ -6,14 +6,13 @@ namespace FunkyCode
 {
 	public class SpriteMeshObject
 	{
-		SpriteTiledMesh spriteTiledMesh = null;
+		private SpriteTiledMesh spriteTiledMesh = null;
 
 		public SpriteTiledMesh GetTiledMesh() {
 			if (spriteTiledMesh == null) {
 				spriteTiledMesh = new SpriteTiledMesh();
 			}
-
-			return(spriteTiledMesh);
+			return spriteTiledMesh;
 		}
 
 		/*

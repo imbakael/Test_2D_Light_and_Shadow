@@ -8,10 +8,10 @@ public class PaletteItem : ScriptableObject {
     public Category category = Category.Ground;
 
     public enum Category {
-        Ground, // 地面; layer = 0
-        BuildingBack, // 被建筑挡，如地上的草、石头、建筑后的木头堆等; layer = 2
-        Building, // 建筑，可挡人也可被人挡; layer = 4
-        BuildingFront, // 装饰，可挡人也可被人挡, 如建筑前的路标; layer = 6
-        Decoration // 装饰前的装饰，可挡人也可被人挡，如树; layer = 8
+        Ground, // 地面; order = 0
+        BuildingBack, // 被建筑挡，如地上的草、石头、建筑后的木头堆等; order = 2
+        Building, // 建筑，可挡人也可被人挡; order = 4
+        BuildingFront, // 装饰，可挡人也可被人挡, 如建筑前的路标; order = 6
+        Decoration // 装饰前的装饰，可挡人也可被人挡，如树; order = 8
     }
 }

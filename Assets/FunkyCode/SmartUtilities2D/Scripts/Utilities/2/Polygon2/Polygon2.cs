@@ -2,267 +2,219 @@
 using UnityEngine;
 using FunkyCode.LightingSettings;
 
-namespace FunkyCode.Utilities
-{
-	public class Polygon2
-	{
-		public Vector2[] points;
-
-		public Rect GetRect()
-		{	
-			Rect rect = new Rect();
-
-			float minX = 100000;
-			float minY = 100000;
-			float maxX = -100000;
-			float maxY = -100000;
-
-			int pointsCount = points.Length;
+namespace FunkyCode.Utilities {
+    public class Polygon2 {
+        public Vector2[] points;
 
-			for(int i = 0; i < pointsCount; i++)
-			{
-				Vector2 id = points[i];
+        public Rect GetRect() {
+            var rect = new Rect();
 
-				minX = (id.x < minX) ? id.x : minX;
-				maxX = (id.x > maxX) ? id.x : maxX;
-
-				minY = (id.y < minY) ? id.y : minY;
-				maxY = (id.y > maxY) ? id.y : maxY;
-			}
-
-			rect.x = minX;
-			rect.y = minY;
-			rect.width = maxX - minX;
-			rect.height = maxY - minY;
-
-			return(rect);
-		}
-
-		public Polygon2 Copy()
-		{
-			Vector2[] array = new Vector2[points.Length];
-
-			System.Array.Copy(points, array, points.Length);
-
-			return(new Polygon2(array));
-		}
-
-		public Polygon2 ToWorldSpace(Transform transform)
-		{
-			Polygon2 newPolygon = this.Copy();
-
-			newPolygon.ToWorldSpaceSelfUNIVERSAL(transform);
-
-			return(newPolygon);
-		}
-
-		public void ToScaleSelf(Vector2 scale, Vector2? center = null)
-		{
-			if (center == null)
-			{
-				center = Vector2.zero;
-			}
-
-			float dist, rot;
-			Vector2 point;
-
-			for(int id = 0; id < points.Length; id++) {
-				point = points[id];
-
-				dist = Vector2.Distance(point, center.Value);
-				rot = point.Atan2(center.Value); //??
+            float minX = 100000;
+            float minY = 100000;
+            float maxX = -100000;
+            float maxY = -100000;
 
-				point.x = center.Value.x + Mathf.Cos(rot) * dist * scale.x;
-				point.y = center.Value.y + Mathf.Sin(rot) * dist * scale.y;
+            int pointsCount = points.Length;
 
-				points[id] = point;
-			}
-		}
+            for (int i = 0; i < pointsCount; i++) {
+                Vector2 id = points[i];
 
-		public void ToRotationSelf(float rotation, Vector2? center = null)
-		{
-			if (center == null)
-			{
-				center = Vector2.zero;
-			}
+                minX = (id.x < minX) ? id.x : minX;
+                maxX = (id.x > maxX) ? id.x : maxX;
 
-			float dist, rot;
-			Vector2 point;
+                minY = (id.y < minY) ? id.y : minY;
+                maxY = (id.y > maxY) ? id.y : maxY;
+            }
 
-			for(int id = 0; id < points.Length; id++)
-			{
-				point = points[id];
-				
-				dist = Vector2.Distance(point, center.Value);
-				rot = point.Atan2(center.Value) + rotation; //??
+            rect.x = minX;
+            rect.y = minY;
+            rect.width = maxX - minX;
+            rect.height = maxY - minY;
 
-				point.x = center.Value.x + Mathf.Cos(rot) * dist;
-				point.y = center.Value.y + Mathf.Sin(rot) * dist;
+            return rect;
+        }
 
-				points[id] = point;
-			}
-		}
+        public Polygon2 Copy() {
+            Vector2[] array = new Vector2[points.Length];
 
-		public Polygon2(List<Vector2> pointList)
-		{
-			points = pointList.ToArray();
-		}
+            System.Array.Copy(points, array, points.Length);
 
-		public Polygon2(int size)
-		{
-			points = new Vector2[size];
-		}
+            return new Polygon2(array);
+        }
 
-		public Polygon2(Polygon2D polygon)
-		{
-			points = new Vector2[polygon.pointsList.Count];
+        public Polygon2 ToWorldSpace(Transform transform) {
+            Polygon2 newPolygon = this.Copy();
 
-			for(int id = 0; id < polygon.pointsList.Count; id++) {
-				points[id] = polygon.pointsList[id].ToVector2();
-			}
-		}
+            newPolygon.ToWorldSpaceSelfUNIVERSAL(transform);
 
-		public Polygon2(Vector2[] array)
-		{
-			points = array;
-		}
+            return newPolygon;
+        }
 
-		public void ToOffsetSelf(Vector2 pos)
-		{
-			for(int id = 0; id < points.Length; id++)
-			{
-				points[id] += pos;
-			}
-		}
+        public void ToScaleSelf(Vector2 scale, Vector2? center = null) {
+            if (center == null) {
+                center = Vector2.zero;
+            }
 
-		public bool IsClockwise()
-		{
-			if (points.Length < 1)
-			{
-				return (true);
-			}
-			
-			double sum = 0;
+            for (int id = 0; id < points.Length; id++) {
+                Vector2 point = points[id];
 
-			Vector2 A = points[points.Length - 1];
-			Vector2 B;
+                float dist = Vector2.Distance(point, center.Value);
+                float rot = point.Atan2(center.Value); //??
 
-			for(int i = 0; i < points.Length; i++) {
-				B = points[i];
+                point.x = center.Value.x + Mathf.Cos(rot) * dist * scale.x;
+                point.y = center.Value.y + Mathf.Sin(rot) * dist * scale.y;
 
-				sum += (B.x - A.x) * (B.y + A.y);
+                points[id] = point;
+            }
+        }
 
-				A = B;
-			}
+        public void ToRotationSelf(float rotation, Vector2? center = null) {
+            if (center == null) {
+                center = Vector2.zero;
+            }
 
-			return(sum > 0);
-		}
+            for (int id = 0; id < points.Length; id++) {
+                Vector2 point = points[id];
 
-		public void Normalize()
-		{
-			if (!IsClockwise ())
-			{
-				System.Array.Reverse(points);
-			}
-		}
+                float dist = Vector2.Distance(point, center.Value);
+                float rot = point.Atan2(center.Value) + rotation; //??
 
+                point.x = center.Value.x + Mathf.Cos(rot) * dist;
+                point.y = center.Value.y + Mathf.Sin(rot) * dist;
 
+                points[id] = point;
+            }
+        }
 
+        public Polygon2(List<Vector2> pointList) {
+            points = pointList.ToArray();
+        }
 
+        public Polygon2(int size) {
+            points = new Vector2[size];
+        }
 
-		
-		///// Constructors - Polygon Creating //////
+        public Polygon2(Polygon2D polygon) {
+            points = new Vector2[polygon.pointsList.Count];
 
-		static public Polygon2 CreateRect(Vector2 size) {
-			size = size / 2;
-			
-			Polygon2 polygon = new Polygon2(4);
+            for (int id = 0; id < polygon.pointsList.Count; id++) {
+                points[id] = polygon.pointsList[id].ToVector2();
+            }
+        }
 
-			polygon.points[0] = new Vector2(-size.x, -size.y);
-			polygon.points[1] = new Vector2(size.x, -size.y);
-			polygon.points[2] = new Vector2(size.x, size.y);
-			polygon.points[3] = new Vector2(-size.x, size.y);
+        public Polygon2(Vector2[] array) {
+            points = array;
+        }
 
-			polygon.Normalize();
+        public void ToOffsetSelf(Vector2 pos) {
+            for (int id = 0; id < points.Length; id++) {
+                points[id] += pos;
+            }
+        }
 
-			return(polygon);
-		}
+        public bool IsClockwise() {
+            if (points.Length < 1) {
+                return (true);
+            }
 
-		static public Polygon2 CreateIsometric(Vector2 size) {
-			size = size / 2;
-			
-			Polygon2 polygon = new Polygon2(4);
+            double sum = 0;
 
-			polygon.points[0] = new Vector2(-size.x, size.y );
-			polygon.points[1] = new Vector2(0, 0);
-			polygon.points[2] = new Vector2(size.x,  size.y);
-			polygon.points[3] = new Vector2(0, size.y * 2);
+            Vector2 A = points[points.Length - 1];
+            Vector2 B;
 
-			polygon.Normalize();
+            for (int i = 0; i < points.Length; i++) {
+                B = points[i];
 
-			return(polygon);
-		}
+                sum += (B.x - A.x) * (B.y + A.y);
 
-		static public Polygon2 CreateHexagon(Vector2 size) {
-			size = size / 2;
+                A = B;
+            }
 
-			Polygon2 polygon = new Polygon2(6);
+            return (sum > 0);
+        }
 
+        public void Normalize() {
+            if (!IsClockwise()) {
+                System.Array.Reverse(points);
+            }
+        }
 
-			polygon.points[0] = new Vector2(-size.x, size.y);
-			polygon.points[1] = new Vector2(-size.x, -size.y);
-			polygon.points[2] = new Vector2(0, -size.y * 2);
-			polygon.points[3] = new Vector2(size.x, -size.y);
-			polygon.points[4] = new Vector2(size.x,  size.y);
-			polygon.points[5] = new Vector2(0, size.y * 2);
 
-			polygon.Normalize();
 
-			return(polygon);
-		}
 
-		public Mesh CreateMesh(GameObject gameObject, Vector2 UVScale, Vector2 UVOffset, PolygonTriangulator2.Triangulation triangulation = PolygonTriangulator2.Triangulation.Advanced) {		
-			if (gameObject.GetComponent<MeshRenderer>() == null) {
-				gameObject.AddComponent<MeshRenderer>();
-			}
 
-			MeshFilter filter = gameObject.GetComponent<MeshFilter> ();
-			if (filter == null) {
-				filter = gameObject.AddComponent<MeshFilter>() as MeshFilter;
-			}
-			
-			filter.sharedMesh = PolygonTriangulator2.Triangulate (this, UVScale, UVOffset, triangulation);
-			if (filter.sharedMesh == null) {
-				UnityEngine.Object.Destroy(gameObject);
-			}
 
-			return(filter.sharedMesh);
-		}
-		
-		public Mesh CreateMesh(Vector2 UVScale, Vector2 UVOffset, PolygonTriangulator2.Triangulation triangulation = PolygonTriangulator2.Triangulation.Advanced) {        
-			return(PolygonTriangulator2.Triangulate (this, UVScale, UVOffset, triangulation));
-		}
+        ///// Constructors - Polygon Creating //////
 
+        static public Polygon2 CreateRect(Vector2 size) {
+            size = size / 2;
 
+            Polygon2 polygon = new Polygon2(4);
 
+            polygon.points[0] = new Vector2(-size.x, -size.y);
+            polygon.points[1] = new Vector2(size.x, -size.y);
+            polygon.points[2] = new Vector2(size.x, size.y);
+            polygon.points[3] = new Vector2(-size.x, size.y);
 
+            polygon.Normalize();
 
+            return (polygon);
+        }
 
+        static public Polygon2 CreateIsometric(Vector2 size) {
+            size = size / 2;
 
+            Polygon2 polygon = new Polygon2(4);
 
+            polygon.points[0] = new Vector2(-size.x, size.y);
+            polygon.points[1] = new Vector2(0, 0);
+            polygon.points[2] = new Vector2(size.x, size.y);
+            polygon.points[3] = new Vector2(0, size.y * 2);
 
+            polygon.Normalize();
 
+            return (polygon);
+        }
 
+        static public Polygon2 CreateHexagon(Vector2 size) {
+            size = size / 2;
 
+            Polygon2 polygon = new Polygon2(6);
 
 
+            polygon.points[0] = new Vector2(-size.x, size.y);
+            polygon.points[1] = new Vector2(-size.x, -size.y);
+            polygon.points[2] = new Vector2(0, -size.y * 2);
+            polygon.points[3] = new Vector2(size.x, -size.y);
+            polygon.points[4] = new Vector2(size.x, size.y);
+            polygon.points[5] = new Vector2(0, size.y * 2);
 
+            polygon.Normalize();
 
+            return (polygon);
+        }
 
+        public Mesh CreateMesh(GameObject gameObject, Vector2 UVScale, Vector2 UVOffset, PolygonTriangulator2.Triangulation triangulation = PolygonTriangulator2.Triangulation.Advanced) {
+            if (gameObject.GetComponent<MeshRenderer>() == null) {
+                gameObject.AddComponent<MeshRenderer>();
+            }
 
+            MeshFilter filter = gameObject.GetComponent<MeshFilter>();
+            if (filter == null) {
+                filter = gameObject.AddComponent<MeshFilter>() as MeshFilter;
+            }
 
+            filter.sharedMesh = PolygonTriangulator2.Triangulate(this, UVScale, UVOffset, triangulation);
+            if (filter.sharedMesh == null) {
+                UnityEngine.Object.Destroy(gameObject);
+            }
 
+            return (filter.sharedMesh);
+        }
 
+        public Mesh CreateMesh(Vector2 UVScale, Vector2 UVOffset, PolygonTriangulator2.Triangulation triangulation = PolygonTriangulator2.Triangulation.Advanced) {
+            return (PolygonTriangulator2.Triangulate(this, UVScale, UVOffset, triangulation));
+        }
 
 
 
@@ -273,96 +225,112 @@ namespace FunkyCode.Utilities
 
 
 
-		
-		public void ToWorldSpaceSelfUNIVERSAL(Transform transform)
-		{
-			switch(Lighting2D.CoreAxis)
-			{
-				case CoreAxis.XY:
 
-					ToWorldSpaceSelfXY(transform);
 
-				break;
 
-				case CoreAxis.XYFLIPPED:
 
-					ToWorldSpaceSelfFlipped(transform);
 
-				break;
 
-				case CoreAxis.XZFLIPPED:
 
-					ToWorldSpaceSelfXZFlipped(transform);
 
-				break;
 
-				case CoreAxis.XZ:
 
-					ToWorldSpaceSelfXZ(transform);
 
-				break;	
-			}
-		}
 
-		//public void ToWorldSpaceSelf(Transform transform) {
-		//	for(int id = 0; id < points.Length; id++) {
-		//		points[id] = transform.TransformPoint (points[id]);
-		//	}
-		//}
 
-		public void ToWorldSpaceSelfXY(Transform transform)
-		{
-			int count = points.Length;
 
-			Vector2 scale = transform.lossyScale;
-			Vector2 position = transform.position;
-			float rotation = transform.eulerAngles.z;
 
-			float angle = rotation * Mathf.Deg2Rad;
-			float cos = Mathf.Cos(angle);
-			float sin = Mathf.Sin(angle);
-			
-			for(int id = 0; id < count; id++)
-			{
-				Vector2 a = points[id];
-				
-				float x = a.x * scale.x;
-				float y = a.y * scale.y;
 
-				a.x = x * cos - y * sin + position.x;
-				a.y = x * sin + y * cos + position.y;
 
-				points[id] = a;
-			}
-		}
 
-		public void ToWorldSpaceSelfFlipped(Transform transform) {
-			int count = points.Length;
-			
-			for(int id = 0; id < count; id++) {
-				points[id] = points[id].TransformToWorldXYFlipped(transform);
-			}
-		}
 
-		public void ToWorldSpaceSelfXZ(Transform transform) {
-			int count = points.Length;
-			
-			for(int id = 0; id < count; id++) {
-				points[id] = points[id].TransformToWorldXZ(transform);
-			}
-		}
 
-		public void ToWorldSpaceSelfXZFlipped(Transform transform) {
-			int count = points.Length;
-			
-			for(int id = 0; id < count; id++) {
-				points[id] = points[id].TransformToWorldXZFlipped(transform);
-			}
-		}
 
-		public bool PointInPoly(Vector2 point)
-		{
-			return(Math2D.PointInPoly(point, this));
-		}
-	}
+
+        public void ToWorldSpaceSelfUNIVERSAL(Transform transform) {
+            switch (Lighting2D.CoreAxis) {
+                case CoreAxis.XY:
+
+                    ToWorldSpaceSelfXY(transform);
+
+                    break;
+
+                case CoreAxis.XYFLIPPED:
+
+                    ToWorldSpaceSelfFlipped(transform);
+
+                    break;
+
+                case CoreAxis.XZFLIPPED:
+
+                    ToWorldSpaceSelfXZFlipped(transform);
+
+                    break;
+
+                case CoreAxis.XZ:
+
+                    ToWorldSpaceSelfXZ(transform);
+
+                    break;
+            }
+        }
+
+        //public void ToWorldSpaceSelf(Transform transform) {
+        //	for(int id = 0; id < points.Length; id++) {
+        //		points[id] = transform.TransformPoint (points[id]);
+        //	}
+        //}
+
+        public void ToWorldSpaceSelfXY(Transform transform) {
+            int count = points.Length;
+
+            Vector2 scale = transform.lossyScale;
+            Vector2 position = transform.position;
+            float rotation = transform.eulerAngles.z;
+
+            float angle = rotation * Mathf.Deg2Rad;
+            float cos = Mathf.Cos(angle);
+            float sin = Mathf.Sin(angle);
+
+            for (int id = 0; id < count; id++) {
+                Vector2 a = points[id];
+
+                float x = a.x * scale.x;
+                float y = a.y * scale.y;
+
+                a.x = x * cos - y * sin + position.x;
+                a.y = x * sin + y * cos + position.y;
+
+                points[id] = a;
+            }
+        }
+
+        public void ToWorldSpaceSelfFlipped(Transform transform) {
+            int count = points.Length;
+
+            for (int id = 0; id < count; id++) {
+                points[id] = points[id].TransformToWorldXYFlipped(transform);
+            }
+        }
+
+        public void ToWorldSpaceSelfXZ(Transform transform) {
+            int count = points.Length;
+
+            for (int id = 0; id < count; id++) {
+                points[id] = points[id].TransformToWorldXZ(transform);
+            }
+        }
+
+        public void ToWorldSpaceSelfXZFlipped(Transform transform) {
+            int count = points.Length;
+
+            for (int id = 0; id < count; id++) {
+                points[id] = points[id].TransformToWorldXZFlipped(transform);
+            }
+        }
+
+        public bool PointInPoly(Vector2 point) {
+            return (Math2D.PointInPoly(point, this));
+        }
+    }
 }

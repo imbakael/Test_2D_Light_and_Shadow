@@ -1,106 +1,91 @@
 ﻿using UnityEngine;
 using FunkyCode.LightingSettings;
 
-namespace FunkyCode
-{
-	public static class Lighting2D
-	{
-		public const int VERSION = 20220400;
-		public const string VERSION_STRING = "2022.04.0";
+namespace FunkyCode {
+    public static class Lighting2D {
+        public const int VERSION = 20220400;
+        public const string VERSION_STRING = "2022.04.0";
 
-		static public Lighting2DMaterials materials = new Lighting2DMaterials();
+        static public Lighting2DMaterials materials = new Lighting2DMaterials();
 
-		// disable
-		static public bool disable => false;
+        // disable
+        static public bool disable => false;
 
-		// lightmaps
-		static public LightmapPreset[] LightmapPresets => Profile.lightmapPresets.list;
+        // lightmaps
+        static public LightmapPreset[] LightmapPresets => Profile.lightmapPresets.list;
 
-		// quality
-		static public LightingSettings.QualitySettings QualitySettings => Profile.qualitySettings;
-		
-		// day lighting
-		static public DayLightingSettings DayLightingSettings => Profile.dayLightingSettings;
+        // quality
+        static public LightingSettings.QualitySettings QualitySettings => Profile.qualitySettings;
 
-		static public RenderingMode RenderingMode => ProjectSettings.renderingMode;
+        // day lighting
+        static public DayLightingSettings DayLightingSettings => Profile.dayLightingSettings;
 
-		static public CoreAxis CoreAxis => Profile.qualitySettings.coreAxis;
+        static public RenderingMode RenderingMode => ProjectSettings.renderingMode;
 
-		// set & get
-		static public Color DarknessColor => LightmapPresets[0].darknessColor;
+        static public CoreAxis CoreAxis => Profile.qualitySettings.coreAxis;
 
-		static public float Resolution => LightmapPresets[0].resolution;
+        // set & get
+        static public Color DarknessColor => LightmapPresets[0].darknessColor;
 
-		// methods
-		static public void UpdateByProfile(Profile setProfile)
-		{
-			if (setProfile == null)
-			{
-				Debug.Log("Light 2D: Update Profile is Missing");
-				return;
-			}
-			
-			// set profile also
-			profile = setProfile;
-		}
+        static public float Resolution => LightmapPresets[0].resolution;
 
-		static public void RemoveProfile()
-		{
-			profile = null;
-		}
+        // methods
+        static public void UpdateByProfile(Profile setProfile) {
+            if (setProfile == null) {
+                Debug.Log("Light 2D: Update Profile is Missing");
+                return;
+            }
 
-		// profile
-		static private Profile profile = null;
-		static public Profile Profile
-		{
-			get
-			{
-				if (profile != null)
-				{
-					return(profile);
-				}
+            // set profile also
+            profile = setProfile;
+        }
 
-				if (ProjectSettings != null)
-				{
-					profile = ProjectSettings.Profile;
-				}
+        static public void RemoveProfile() {
+            profile = null;
+        }
 
-				if (profile == null)
-				{
-					profile = Resources.Load("Profiles/Default Profile") as Profile;
+        // profile
+        static private Profile profile = null;
+        static public Profile Profile {
+            get {
+                if (profile != null) {
+                    return profile;
+                }
 
-					if (profile == null)
-					{
-						Debug.LogError("Light 2D: Default Profile not found");
-					}
-				}
+                if (ProjectSettings != null) {
+                    profile = ProjectSettings.Profile;
+                }
 
-				return(profile);
-			}
-		}
+                if (profile == null) {
+                    profile = Resources.Load("Profiles/Default Profile") as Profile;
 
-		static private ProjectSettings projectSettings = null;
-		static public ProjectSettings ProjectSettings
-		{
-			get
-			{
-				if (projectSettings != null)
-				{
-					return(projectSettings);
-				}
+                    if (profile == null) {
+                        Debug.LogError("Light 2D: Default Profile not found");
+                    }
+                }
 
-				projectSettings = Resources.Load("Settings/Project Settings") as ProjectSettings;
+                return profile;
+            }
+        }
 
-				if (projectSettings == null)
-				{
-					Debug.LogError("Light 2D: Project Settings not found");
-					return(null);
-				}
-			
-				return(projectSettings);
-			}
-		}
-	}
+        static private ProjectSettings projectSettings = null;
+        static public ProjectSettings ProjectSettings {
+            get {
+                if (projectSettings != null) {
+                    return (projectSettings);
+                }
+
+                projectSettings = Resources.Load("Settings/Project Settings") as ProjectSettings;
+
+                if (projectSettings == null) {
+                    Debug.LogError("Light 2D: Project Settings not found");
+                    return (null);
+                }
+
+                return (projectSettings);
+            }
+        }
+    }
 }
 
 //MyScriptableObjectClass asset = ScriptableObject.CreateInstance<MyScriptableObjectClass>();

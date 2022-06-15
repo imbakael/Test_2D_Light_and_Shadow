@@ -1,22 +1,15 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode
-{
-	public class LightingMonoBehaviour : MonoBehaviour
-	{
-		public void DestroySelf()
-		{
-			if (Application.isPlaying)
-			{
-				Destroy(this.gameObject);
-			}
-				else
-			{
-				if (this != null && this.gameObject != null)
-				{
-					DestroyImmediate(this.gameObject);
-				}
-			}
-		}
-	}
+namespace FunkyCode {
+    public class LightingMonoBehaviour : MonoBehaviour {
+        public void DestroySelf() {
+            if (Application.isPlaying) {
+                Destroy(gameObject);
+            } else {
+                if (this != null && gameObject != null) {
+                    DestroyImmediate(gameObject);
+                }
+            }
+        }
+    }
 }

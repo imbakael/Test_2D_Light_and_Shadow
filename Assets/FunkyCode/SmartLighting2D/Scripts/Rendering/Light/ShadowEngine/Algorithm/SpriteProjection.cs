@@ -34,15 +34,15 @@ namespace FunkyCode.Rendering.Light.Shadow
             Vector2 offset = ShadowEngine.lightOffset + ShadowEngine.objectOffset;
             float lightSize = ShadowEngine.lightSize;
 
-            float pivotY = (float)ShadowEngine.spriteProjection.pivot.y / ShadowEngine.spriteProjection.texture.height;
+            float pivotY = ShadowEngine.spriteProjection.pivot.y / ShadowEngine.spriteProjection.texture.height;
 
-            VirtualSpriteRenderer virtualSpriteRenderer = new VirtualSpriteRenderer();
-
-            virtualSpriteRenderer.sprite = ShadowEngine.spriteProjection;
-            virtualSpriteRenderer.flipX = ShadowEngine.flipX;
+            var virtualSpriteRenderer = new VirtualSpriteRenderer {
+                sprite = ShadowEngine.spriteProjection,
+                flipX = ShadowEngine.flipX
+            };
             //virtualSpriteRenderer.flipY = spriteRenderer.flipY;
 
-            SpriteTransform spriteTransform = new SpriteTransform(virtualSpriteRenderer, Vector2.zero, Vector2.one, 0);
+            var spriteTransform = new SpriteTransform(virtualSpriteRenderer, Vector2.zero, Vector2.one, 0);
 
             Rect uvRect = spriteTransform.uv;
             pivotY = uvRect.y + pivotY;

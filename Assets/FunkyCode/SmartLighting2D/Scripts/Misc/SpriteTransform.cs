@@ -9,11 +9,10 @@ namespace FunkyCode
         public Vector2 position;
         public Vector2 scale;
         public float rotation;
-
         public Rect uv;
 
         public SpriteTransform(VirtualSpriteRenderer spriteRenderer, Vector2 position, Vector2 scale, float rotation) {
-            UnityEngine.Sprite sprite = spriteRenderer.sprite;
+            Sprite sprite = spriteRenderer.sprite;
 
             /*
             if (spriteRenderer == null || sprite == null) {
@@ -44,7 +43,7 @@ namespace FunkyCode
             float spriteHeight = spriteRect.height;
 
             // Scale
-            Vector2 textureScale = new Vector2(
+            var textureScale = new Vector2(
                 textureWidth / spriteWidth, 
                 textureHeight / spriteHeight
             );
@@ -77,7 +76,7 @@ namespace FunkyCode
             this.position.y = position.y + pivot.x * sin + pivot.y * cos;
 
             // UV coordinates
-            Rect uvRect = new Rect();
+            var uvRect = new Rect();
             uvRect.x = spriteRect.x / textureWidth;
             uvRect.y = spriteRect.y / textureHeight;
             uvRect.width = spriteWidth / textureWidth + uvRect.x;

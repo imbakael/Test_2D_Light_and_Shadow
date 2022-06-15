@@ -1,65 +1,53 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode.LightingSettings
-{
+namespace FunkyCode.LightingSettings {
     [CreateAssetMenu(fileName = "Data", menuName = "Light 2D/Project", order = 2)]
 
-    public class ProjectSettings : ScriptableObject
-	{
-		public RenderingMode renderingMode = RenderingMode.OnRender;
+    public class ProjectSettings : ScriptableObject {
+        public RenderingMode renderingMode = RenderingMode.OnRender;
 
-		public EditorView editorView;
-		public Gizmos gizmos;
+        public EditorView editorView;
+        public Gizmos gizmos;
 
-		public Chunks chunks;
+        public Chunks chunks;
 
-		public ColorSpace colorSpace = ColorSpace.Gamma;
+        public ColorSpace colorSpace = ColorSpace.Gamma;
 
-		public ManagerInternal managerInternal = ManagerInternal.HideInHierarchy;
+        public ManagerInternal managerInternal = ManagerInternal.HideInHierarchy;
 
-		public ManagerInstance managerInstance = ManagerInstance.Static;
-		
-		public ShaderPreview shaderPreview = ShaderPreview.Disabled;
+        public ManagerInstance managerInstance = ManagerInstance.Static;
 
-		public int MaxLightSize = 100;
+        public ShaderPreview shaderPreview = ShaderPreview.Disabled;
 
-		public bool disable;
+        public int MaxLightSize = 100;
 
-		public Profile profile;
-        public Profile Profile
-		{
-			get
-			{
-				if (profile != null)
-				{
-					return(profile);
-				}
-		
-				profile = Resources.Load("Profiles/Default Profile") as Profile;
+        public bool disable;
 
-				if (profile == null)
-				{
-					Debug.LogError("Light 2D Project Settings: Default Profile not found");
-				}
-			
-				return(profile);
-			}
+        public Profile profile;
+        public Profile Profile {
+            get {
+                if (profile == null) {
+                    profile = Resources.Load("Profiles/Default Profile") as Profile;
+                }
+                if (profile == null) {
+                    Debug.LogError("Light 2D Project Settings: Default Profile not found");
+                }
+                return profile;
+            }
 
-			set
-			{
-				profile = value;
-			}
-		}
+            set {
+                profile = value;
+            }
+        }
 
-		public ProjectSettings()
-		{
-			chunks = new Chunks();
+        public ProjectSettings() {
+            chunks = new Chunks();
 
-			gizmos = new Gizmos();
+            gizmos = new Gizmos();
 
-			colorSpace = ColorSpace.Gamma;
+            colorSpace = ColorSpace.Gamma;
 
-			disable = false;
-		}
+            disable = false;
+        }
     }
 }

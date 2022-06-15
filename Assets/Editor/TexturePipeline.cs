@@ -5,11 +5,11 @@ public class TexturePipeline : AssetPostprocessor {
 
     private void OnPreprocessTexture() {
         Debug.LogFormat("OnPrepTexture, The path is {0}", assetPath);
-        if (assetPath.StartsWith("Assets/AnimationRes/BuildAnimation")) {
-            PreprocessBg();
-        } else if (assetPath.StartsWith("Assets/Resources/MapRes")) {
-            PreprocessMapRes();
-        }
+        //if (assetPath.StartsWith("Assets/AnimationRes/BuildAnimation")) {
+        //    PreprocessBg();
+        //} else if (assetPath.StartsWith("Assets/Resources/MapRes")) {
+        //    PreprocessMapRes();
+        //}
     }
 
     private void PreprocessMapRes() {

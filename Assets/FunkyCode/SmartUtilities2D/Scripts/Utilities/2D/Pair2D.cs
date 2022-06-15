@@ -118,7 +118,7 @@ namespace FunkyCode.Utilities
 
 		public static Pair2 Zero()
 		{
-			return(new Pair2 (Vector2.zero, Vector2.zero));
+			return new Pair2(Vector2.zero, Vector2.zero);
 		}
 	}
 }

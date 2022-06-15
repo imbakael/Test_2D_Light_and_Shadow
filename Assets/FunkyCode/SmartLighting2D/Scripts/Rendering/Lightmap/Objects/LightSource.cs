@@ -1,51 +1,41 @@
 ﻿using UnityEngine;
 
-namespace FunkyCode.Rendering.Lightmap
-{
-	public class LightSource
-    {
-       static public void Draw(Light2D light, Camera camera)
-       {
-            if (light.Buffer == null)
-            {
+namespace FunkyCode.Rendering.Lightmap {
+    public class LightSource {
+
+        static public void Draw(Light2D light, Camera camera) {
+            if (light.Buffer == null) {
                 return;
             }
 
-            if (!light.isActiveAndEnabled)
-            {
+            if (!light.isActiveAndEnabled) {
                 return;
             }
 
-            if (!light.InCamera(camera))
-            {
+            if (!light.InCamera(camera)) {
                 return;
             }
 
-            if (!light.drawingEnabled)
-            {
+            if (!light.drawingEnabled) {
                 return;
             }
 
             Vector2 pos = LightingPosition.GetPosition2D(-camera.transform.position);
             Vector2 size = new Vector2(light.size, light.size);
 
-            if (light.IsPixelPerfect())
-            {
+            if (light.IsPixelPerfect()) {
                 size = LightingRender2D.GetSize(camera);
                 pos = Vector2.zero;
-            }
-                else
-            {
+            } else {
                 pos += light.transform2D.position;
             }
-         
+
             Color lightColor = light.color;
             lightColor.a = light.color.a / 2;
 
             Material material = null;
 
-            switch(light.lightType)
-            {
+            switch (light.lightType) {
                 case Light2D.LightType.Sprite:
 
                     material = Lighting2D.materials.lights.GetSpriteLight();
@@ -61,7 +51,7 @@ namespace FunkyCode.Rendering.Lightmap
                     material.SetFloat("_FlipX", flipX);
                     material.SetFloat("_FlipY", flipY);
 
-                break;
+                    break;
 
                 case Light2D.LightType.FreeForm:
 
@@ -71,7 +61,7 @@ namespace FunkyCode.Rendering.Lightmap
                     material.SetTexture("_Sprite", light.Buffer.freeFormTexture.renderTexture);
                     material.SetFloat("_Point", light.freeFormPoint);
 
-                break;
+                    break;
 
                 case Light2D.LightType.Point:
 
@@ -83,33 +73,28 @@ namespace FunkyCode.Rendering.Lightmap
                     material.SetFloat("_Inner", light.spotAngleInner);
                     material.SetFloat("_Rotation", light.transform2D.rotation * 0.0174533f);
 
-                break;
+                    break;
             }
 
             GLExtended.color = lightColor;
 
-            Rendering.Universal.Texture.Quad.Draw(material, pos, size, 0, 0);
+            Universal.Texture.Quad.Draw(material, pos, size, 0, 0);
         }
 
-        static public void DrawOcclusion(Light2D light, Camera camera)
-        {
-            if (light.Buffer == null)
-            {
+        static public void DrawOcclusion(Light2D light, Camera camera) {
+            if (light.Buffer == null) {
                 return;
             }
 
-            if (!light.isActiveAndEnabled)
-            {
+            if (!light.isActiveAndEnabled) {
                 return;
             }
 
-            if (!light.InCamera(camera))
-            {
+            if (!light.InCamera(camera)) {
                 return;
             }
 
-            if (!light.drawingEnabled)
-            {
+            if (!light.drawingEnabled) {
                 return;
             }
 
@@ -117,16 +102,15 @@ namespace FunkyCode.Rendering.Lightmap
             Vector2 size = new Vector2(light.size, light.size);
 
             pos += light.transform2D.position;
-         
+
             Color lightColor = light.color;
             lightColor.a = light.color.a / 2;
 
             Material material = null;
 
-            switch(light.lightType)
-            {
+            switch (light.lightType) {
                 case Light2D.LightType.Sprite:
-                
+
                     float flipX = light.spriteFlipX ? 1 : 0;
                     float flipY = light.spriteFlipY ? 1 : 0;
 
@@ -137,7 +121,7 @@ namespace FunkyCode.Rendering.Lightmap
                     material.SetFloat("_FlipX", flipX);
                     material.SetFloat("_FlipY", flipY);
 
-                break;
+                    break;
 
                 case Light2D.LightType.FreeForm:
 
@@ -145,7 +129,7 @@ namespace FunkyCode.Rendering.Lightmap
                     material.mainTexture = light.Buffer.freeFormTexture.renderTexture;
                     material.SetFloat("_Point", light.freeFormPoint);
 
-                break;
+                    break;
 
                 case Light2D.LightType.Point:
 
@@ -155,61 +139,51 @@ namespace FunkyCode.Rendering.Lightmap
                     material.SetFloat("_Outer", light.spotAngleOuter - light.spotAngleInner);
                     material.SetFloat("_Inner", light.spotAngleInner);
 
-                break;
+                    break;
             }
-            
+
             GLExtended.color = lightColor;
 
-            Rendering.Universal.Texture.Quad.Draw(material, pos, size, light.transform2D.rotation, 0);
+            Universal.Texture.Quad.Draw(material, pos, size, light.transform2D.rotation, 0);
         }
 
-        static public void DrawTranslucent(Light2D light, Camera camera)
-        {
-            if (light.Buffer == null)
-            {
+        static public void DrawTranslucent(Light2D light, Camera camera) {
+            if (light.Buffer == null) {
                 return;
             }
 
-            if (!light.isActiveAndEnabled)
-            {
+            if (!light.isActiveAndEnabled) {
                 return;
             }
 
-            if (!light.InCamera(camera))
-            {
+            if (!light.InCamera(camera)) {
                 return;
             }
 
-            if (!light.drawingTranslucencyEnabled)
-            {
+            if (!light.drawingTranslucencyEnabled) {
                 return;
             }
 
-            if (light.Buffer.translucencyTexture == null)
-            {
+            if (light.Buffer.translucencyTexture == null) {
                 return;
             }
 
             Vector2 pos = LightingPosition.GetPosition2D(-camera.transform.position);
             Vector2 size = new Vector2(light.size, light.size);
 
-            if (light.IsPixelPerfect())
-            {
+            if (light.IsPixelPerfect()) {
                 size = LightingRender2D.GetSize(camera);
                 pos = Vector2.zero;
-            }
-                else
-            {
+            } else {
                 pos += light.transform2D.position;
             }
-         
+
             Color lightColor = light.color;
             lightColor.a = light.color.a / 2;
 
             Material material = null;
 
-            switch(light.lightType)
-            {
+            switch (light.lightType) {
                 case Light2D.LightType.Sprite:
 
                     material = Lighting2D.materials.lights.GetSpriteLight();
@@ -220,7 +194,7 @@ namespace FunkyCode.Rendering.Lightmap
                     material.SetFloat("_Outer", light.spotAngleOuter - light.spotAngleInner);
                     material.SetFloat("_Inner", light.spotAngleInner);
 
-                break;
+                    break;
 
                 case Light2D.LightType.FreeForm:
 
@@ -230,7 +204,7 @@ namespace FunkyCode.Rendering.Lightmap
                     material.SetTexture("_Sprite", light.Buffer.freeFormTexture.renderTexture);
                     material.SetFloat("_Point", light.freeFormPoint);
 
-                break;
+                    break;
 
                 case Light2D.LightType.Point:
 
@@ -242,12 +216,12 @@ namespace FunkyCode.Rendering.Lightmap
                     material.SetFloat("_Outer", light.spotAngleOuter - light.spotAngleInner);
                     material.SetFloat("_Inner", light.spotAngleInner);
 
-                break;
+                    break;
             }
 
             GLExtended.color = lightColor;
 
-            Rendering.Universal.Texture.Quad.Draw(material, pos, size, 0, 0);
+            Universal.Texture.Quad.Draw(material, pos, size, 0, 0);
         }
     }
 }

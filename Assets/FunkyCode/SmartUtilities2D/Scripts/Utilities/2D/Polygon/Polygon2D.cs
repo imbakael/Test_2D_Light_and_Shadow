@@ -41,11 +41,10 @@ namespace FunkyCode.Utilities {
 		}
 			
 		public bool PointInPoly(Vector2D point) {
-			return(Math2D.PointInPoly(point, this));
+			return Math2D.PointInPoly(point, this);
 		}
 
 		// ***********8
-
 
 		static Vector2D v = Vector2D.Zero();
 		public bool PointInPoly(Vector2 point) {
@@ -58,14 +57,8 @@ namespace FunkyCode.Utilities {
 				}
 			}
 			
-			return(Math2D.PointInPoly(v, this));
+			return Math2D.PointInPoly(v, this);
 		}
-
-
-
-
-
-
 
 		//**********
 
@@ -92,7 +85,7 @@ namespace FunkyCode.Utilities {
 		private static Pair2D id = new Pair2D(new Vector2D(0, 0), new Vector2D(0, 0));
 		public bool IsClockwise() {
 			if (pointsList.Count < 1) {
-				return (true);
+				return true;
 			}
 			
 			double sum = 0;
@@ -108,7 +101,7 @@ namespace FunkyCode.Utilities {
 				id.A = id.B;
 			}
 
-			return(sum > 0);
+			return sum > 0;
 		}
 
 		public void Normalize() {
@@ -124,14 +117,14 @@ namespace FunkyCode.Utilities {
 		public double GetArea() {
 			double area = 0f;
 			foreach (Pair2D id in Pair2D.GetList(pointsList)) {
-				area += ((id.B.x - id.A.x) * (id.B.y + id.A.y)) / 2.0f;
+				area += (id.B.x - id.A.x) * (id.B.y + id.A.y) / 2.0f;
 			}
 
 			foreach (Polygon2D p in holesList) {
 				area -= p.GetArea ();
 			}
 
-			return(System.Math.Abs(area)); 
+			return System.Math.Abs(area); 
 		}
 
 
@@ -155,12 +148,8 @@ namespace FunkyCode.Utilities {
 			rect.width = maxX - minX;
 			rect.height = maxY - minY;
 
-			return(rect);
+			return rect;
 		}
-
-
-
-
 	
 		public List<Polygon2D> LineIntersectHoles(Pair2D pair) {
 			List<Polygon2D> resultList = new List<Polygon2D>();
@@ -170,21 +159,21 @@ namespace FunkyCode.Utilities {
 				}
 			}
 
-			return(resultList);
+			return resultList;
 		}
 
 		public bool SliceIntersectPoly(List <Vector2D> slice) {
 			if (Math2D.SliceIntersectPoly (slice, this)) {
-				return(true);
+				return true;
 			}
 			
 			foreach (Polygon2D poly in holesList) {
 				if (Math2D.SliceIntersectPoly (slice, poly)) {
-					return(true);
+					return true;
 				}
 			}
 
-			return(false);
+			return false;
 		}
 			
 		public List<Polygon2D> SliceIntersectHoles(List <Vector2D> slice) {
@@ -195,7 +184,7 @@ namespace FunkyCode.Utilities {
 				}
 			}
 
-			return(resultList);
+			return resultList;
 		}
 
 		public List<Vector2D> GetListLineIntersectPoly(Pair2D line) {
@@ -207,41 +196,39 @@ namespace FunkyCode.Utilities {
 				}
 			}
 			
-			return(intersections);
+			return intersections;
 		}
-
-
 
 		///// Constructors - Polygon Creating //////
 
 		static public Polygon2D CreateRect(Vector2 size) {
-			size = size / 2;
+			size /= 2;
 			
-			Polygon2D polygon = new Polygon2D();
+			var polygon = new Polygon2D();
 			polygon.pointsList.Add(new Vector2D(-size.x, -size.y));
 			polygon.pointsList.Add(new Vector2D(size.x, -size.y));
 			polygon.pointsList.Add(new Vector2D(size.x, size.y));
 			polygon.pointsList.Add(new Vector2D(-size.x, size.y));
 			polygon.Normalize();
-			return(polygon);
+			return polygon;
 		}
 
 		static public Polygon2D CreateIsometric(Vector2 size) {
-			size = size / 2;
+			size /= 2;
 			
-			Polygon2D polygon = new Polygon2D();
+			var polygon = new Polygon2D();
 			polygon.pointsList.Add(new Vector2D(-size.x, size.y ));
 			polygon.pointsList.Add(new Vector2D(0, 0 ));
 			polygon.pointsList.Add(new Vector2D(size.x,  size.y));
 			polygon.pointsList.Add(new Vector2D(0, size.y * 2));
 			polygon.Normalize();
-			return(polygon);
+			return polygon;
 		}
 
 		static public Polygon2D CreateHexagon(Vector2 size) {
-			size = size / 2;
+			size /= 2;
 
-			Polygon2D polygon = new Polygon2D();
+			var polygon = new Polygon2D();
 			polygon.pointsList.Add(new Vector2D(-size.x, size.y));
 
 			polygon.pointsList.Add(new Vector2D(-size.x, -size.y));
@@ -268,10 +255,10 @@ namespace FunkyCode.Utilities {
 			
 			filter.sharedMesh = PolygonTriangulator2D.Triangulate (this, UVScale, UVOffset, triangulation);
 			if (filter.sharedMesh == null) {
-				UnityEngine.Object.Destroy(gameObject);
+                Object.Destroy(gameObject);
 			}
 
-			return(filter.sharedMesh);
+            return (filter.sharedMesh);
 		}
 		
 		public Mesh CreateMesh(Vector2 UVScale, Vector2 UVOffset, PolygonTriangulator2D.Triangulation triangulation = PolygonTriangulator2D.Triangulation.Advanced) {        
@@ -317,17 +304,17 @@ namespace FunkyCode.Utilities {
 
 			collider.enabled = true;
 
-			return(collider);
+			return collider;
 		}
 
 		public EdgeCollider2D CreateEdgeCollider(GameObject gameObject) {
-			EdgeCollider2D collider = gameObject.GetComponent<EdgeCollider2D> ();
+			EdgeCollider2D collider = gameObject.GetComponent<EdgeCollider2D>();
 
 			if (collider == null) {
-				collider = gameObject.AddComponent<EdgeCollider2D> ();
+				collider = gameObject.AddComponent<EdgeCollider2D>();
 			}
 
-			List<Vector2> points = new List<Vector2> ();
+			var points = new List<Vector2>();
 
 			foreach (Vector2D p in pointsList) {
 				points.Add(p.ToVector2());
@@ -335,7 +322,7 @@ namespace FunkyCode.Utilities {
 
 			collider.points = points.ToArray();
 
-			return(collider);
+			return collider;
 		}
 
 		// Sprite To Mesh
@@ -351,13 +338,13 @@ namespace FunkyCode.Utilities {
 
 			Rect spriteRect = sprite.textureRect;
 			
-			float spriteSheetU = (float)(texture.width) / spriteRect.width;
-			float spriteSheetV = (float)(texture.height) / spriteRect.height;
+			float spriteSheetU = texture.width / spriteRect.width;
+			float spriteSheetV = texture.height / spriteRect.height;
 
 		
-			Rect uvRect = new Rect((float)spriteRect.x / texture.width, (float)spriteRect.y / texture.height, (float)spriteRect.width / texture.width, (float)spriteRect.height / texture.height);
+			var uvRect = new Rect((float)spriteRect.x / texture.width, (float)spriteRect.y / texture.height, (float)spriteRect.width / texture.width, (float)spriteRect.height / texture.height);
 
-			Vector2 scale = new Vector2(spriteSheetU * spriteRect.width / sprite.pixelsPerUnit, spriteSheetV * spriteRect.height / spriteRenderer.sprite.pixelsPerUnit);
+			var scale = new Vector2(spriteSheetU * spriteRect.width / sprite.pixelsPerUnit, spriteSheetV * spriteRect.height / spriteRenderer.sprite.pixelsPerUnit);
 			
 			if (spriteRenderer.flipX) {
 				scale.x = -scale.x;
@@ -396,29 +383,29 @@ namespace FunkyCode.Utilities {
 
 		// HOLES MISSING??????
 		public Polygon2D Copy() {
-			Polygon2D newPolygon = new Polygon2D();
+			var newPolygon = new Polygon2D();
 
 			for(int id = 0; id < pointsList.Count; id++) {
-				newPolygon.pointsList.Add (new Vector2D(pointsList[id].x, pointsList[id].y));
+				newPolygon.pointsList.Add(new Vector2D(pointsList[id].x, pointsList[id].y));
 			}
 
-			return(newPolygon);
+			return newPolygon;
 		}
 
 		///// Slow Operators /////
 		
 		public Polygon2D ToLocalSpace(Transform transform) {
-			Polygon2D newPolygon = new Polygon2D();
+			var newPolygon = new Polygon2D();
 
 			for(int id = 0; id < pointsList.Count; id++) {
-				newPolygon.AddPoint (transform.InverseTransformPoint (pointsList[id].ToVector2()));
+				newPolygon.AddPoint(transform.InverseTransformPoint (pointsList[id].ToVector2()));
 			}
 
 			for(int id = 0; id < holesList.Count; id++) {
-				newPolygon.AddHole (holesList[id].ToLocalSpace (transform));
+				newPolygon.AddHole(holesList[id].ToLocalSpace (transform));
 			}
 
-			return(newPolygon);
+			return newPolygon;
 		}
 
 		public Polygon2D ToWorldSpace(Transform transform) {

@@ -2,144 +2,122 @@
 using UnityEngine;
 using FunkyCode.Utilities;
 
-namespace FunkyCode.LightShape
-{
-	public class Base
-	{
-		public List<Polygon2> WorldPolygons = null;
-		public List<Polygon2> WorldCache = null;
+namespace FunkyCode.LightShape {
+    public class Base {
+        public List<Polygon2> WorldPolygons = null;
+        public List<Polygon2> WorldCache = null;
 
-		public Vector2? WorldPoint = null;
-		public Rect WorldRect;
-		public Rect WorldDayRect;
+        public Vector2? WorldPoint = null;
+        public Rect WorldRect;
+        public Rect WorldDayRect;
 
-		// iso vars
-		public Rect IsoWorldRect;
+        // iso vars
+        public Rect IsoWorldRect;
 
-		public List<Polygon2> LocalPolygons = null;
-		public List<Polygon2> LocalPolygonsCache = null;
+        public List<Polygon2> LocalPolygons = null;
+        public List<Polygon2> LocalPolygonsCache = null;
 
-		public List<MeshObject> Meshes = null;
-	
-		public Transform transform;
+        public List<MeshObject> Meshes = null;
 
-		public virtual int GetSortingOrder() => 0;
-	
-		public virtual int GetSortingLayer() => 0;
+        public Transform transform;
 
-		public virtual List<Polygon2> GetPolygonsLocal() => LocalPolygons;
+        public virtual int GetSortingOrder() => 0;
 
-		public virtual List<Polygon2> GetPolygonsWorld() => WorldPolygons;
+        public virtual int GetSortingLayer() => 0;
 
-		public void SetTransform(Transform transform)
-		{
-			this.transform = transform;
-		}
+        public virtual List<Polygon2> GetPolygonsLocal() => LocalPolygons;
 
+        public virtual List<Polygon2> GetPolygonsWorld() => WorldPolygons;
 
-		virtual public void ResetLocal()
-		{
-			Meshes = null;
+        public void SetTransform(Transform transform) {
+            this.transform = transform;
+        }
 
-			LocalPolygons = null;
+        virtual public void ResetLocal() {
+            Meshes = null;
 
-			WorldPolygons = null;
-			WorldCache = null;
+            LocalPolygons = null;
 
-			ResetWorld();
-		}
+            WorldPolygons = null;
+            WorldCache = null;
 
-		virtual public void ResetWorld()
-		{
-			WorldPolygons = null;
+            ResetWorld();
+        }
 
-			WorldRect = new Rect();
+        virtual public void ResetWorld() {
+            WorldPolygons = null;
 
-			WorldDayRect = new Rect();
+            WorldRect = new Rect();
 
-			IsoWorldRect = new Rect();
+            WorldDayRect = new Rect();
 
-			WorldPoint = null;
-		}
+            IsoWorldRect = new Rect();
 
-		public Rect GetWorldRect()
-		{
-			if (WorldRect.width < 0.01f)
-			{
-				WorldRect = Polygon2Helper.GetRect(GetPolygonsWorld());
-			}
+            WorldPoint = null;
+        }
 
-			return(WorldRect);
-		}
+        public Rect GetWorldRect() {
+            if (WorldRect.width < 0.01f) {
+                WorldRect = Polygon2Helper.GetRect(GetPolygonsWorld());
+            }
 
-		public Rect GetDayRect(float shadowDistance)
-		{
-			if (WorldDayRect.width < 0.01f)
-			{
-				WorldDayRect = Polygon2Helper.GetDayRect(GetPolygonsWorld(), shadowDistance);
-			}
+            return WorldRect;
+        }
 
-			return(WorldRect);
-		}
+        public Rect GetDayRect(float shadowDistance) {
+            if (WorldDayRect.width < 0.01f) {
+                WorldDayRect = Polygon2Helper.GetDayRect(GetPolygonsWorld(), shadowDistance);
+            }
 
-		public Rect GetIsoWorldRect()
-		{
-			if (IsoWorldRect.width < 0.01f)
-			{
-				IsoWorldRect = Polygon2Helper.GetIsoRect(GetPolygonsWorld());
-			}
+            return WorldRect;
+        }
 
-			return(IsoWorldRect);
-		}
-		
-		public Vector2 GetPivotPoint_ShapeCenter()
-		{
-			if (WorldPoint == null) 
-			{
-				WorldPoint = GetWorldRect().center;
-			}
+        public Rect GetIsoWorldRect() {
+            if (IsoWorldRect.width < 0.01f) {
+                IsoWorldRect = Polygon2Helper.GetIsoRect(GetPolygonsWorld());
+            }
 
-			return(WorldPoint.Value);
-		}
+            return IsoWorldRect;
+        }
 
-		public Vector2 GetPivotPoint_TransformCenter()
-		{
-			if (WorldPoint == null)
-			{
-				WorldPoint = transform.position;
-			}
+        public Vector2 GetPivotPoint_ShapeCenter() {
+            if (WorldPoint == null) {
+                WorldPoint = GetWorldRect().center;
+            }
 
-			return(WorldPoint.Value);
-		}
+            return WorldPoint.Value;
+        }
 
-		public Vector2 GetPivotPoint_LowestY()
-		{
-			if (WorldPoint == null)
-			{
-				List<Polygon2> polys = GetPolygonsWorld();
+        public Vector2 GetPivotPoint_TransformCenter() {
+            if (WorldPoint == null) {
+                WorldPoint = transform.position;
+            }
 
-				Vector2 lowestPoint = new Vector2(0, 999999);
+            return WorldPoint.Value;
+        }
 
-				foreach(Polygon2 poly in polys)
-				{
-					foreach(Vector2 p in poly.points)
-					{
-						if (p.y < lowestPoint.y)
-						{
-							lowestPoint = p;
-						}
-					}
-				}
+        public Vector2 GetPivotPoint_LowestY() {
+            if (WorldPoint == null) {
+                List<Polygon2> polys = GetPolygonsWorld();
 
-				WorldPoint = lowestPoint;
-			}
+                var lowestPoint = new Vector2(0, 999999);
 
-			return(WorldPoint.Value);
-		}
+                foreach (Polygon2 poly in polys) {
+                    foreach (Vector2 p in poly.points) {
+                        if (p.y < lowestPoint.y) {
+                            lowestPoint = p;
+                        }
+                    }
+                }
 
-		public virtual List<MeshObject> GetMeshes()
-		{
-			return(null);
-		}
-	}
+                WorldPoint = lowestPoint;
+            }
+
+            return WorldPoint.Value;
+        }
+
+        public virtual List<MeshObject> GetMeshes() {
+            return null;
+        }
+    }
 }

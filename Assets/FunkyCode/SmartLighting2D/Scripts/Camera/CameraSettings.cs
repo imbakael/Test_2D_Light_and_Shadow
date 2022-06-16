@@ -42,7 +42,7 @@ namespace FunkyCode {
         public CameraLightmap GetLightmap(int index) {
             CameraLightmap buffer = lightmaps[index];
             buffer.id = index;
-            return (buffer);
+            return buffer;
         }
 
         public CameraType cameraType;

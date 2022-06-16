@@ -116,7 +116,7 @@ namespace FunkyCode.Rendering.Day
                 return(false);
             }
 
-            layerId = (int)slayer.id;
+            layerId = slayer.id;
             layer = slayer;
 
             this.camera = camera;

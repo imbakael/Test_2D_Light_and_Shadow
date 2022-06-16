@@ -2,65 +2,54 @@
 using FunkyCode.LightingSettings;
 using FunkyCode.LightSettings;
 
-namespace FunkyCode.Rendering.Day
-{	
-	public static class Main
-	{
-		static Pass pass = new Pass();
+namespace FunkyCode.Rendering.Day {
+    public static class Main {
 
-		public static void Draw(Camera camera, LightmapPreset lightmapPreset)
-		{
-			if (!IsDrawing(camera, lightmapPreset))
-			{
-				return;
-			}
+        static Pass pass = new Pass();
 
-			LightmapLayer[] layerSettings = lightmapPreset.dayLayers.Get();
-		
-			for(int i = 0; i < layerSettings.Length; i++)
-			{
-				LightmapLayer dayLayer = layerSettings[i];
+        public static void Draw(Camera camera, LightmapPreset lightmapPreset) {
+            if (!IsDrawing(camera, lightmapPreset)) {
+                return;
+            }
 
-				LayerSorting sorting = dayLayer.sorting;
+            LightmapLayer[] layerSettings = lightmapPreset.dayLayers.Get();
 
-				if (!pass.Setup(dayLayer, camera))
-				{
-					continue;
-				}
+            for (int i = 0; i < layerSettings.Length; i++) {
+                LightmapLayer dayLayer = layerSettings[i];
 
-				if (sorting == LayerSorting.None)
-				{
-					NoSort.Draw(pass);
-				}
-					else
-				{
-					pass.SortObjects();
+                LayerSorting sorting = dayLayer.sorting;
 
-					Sorted.Draw(pass);
-				}
-			}
-		}
+                if (!pass.Setup(dayLayer, camera)) {
+                    continue;
+                }
 
-		public static bool IsDrawing(Camera camera, LightmapPreset lightmapPreset)
-		{
-			if (Lighting2D.DayLightingSettings.ShadowColor.a == 0) // <=
-			{
-				return(false);
-			}
+                if (sorting == LayerSorting.None) {
+                    NoSort.Draw(pass);
+                } else {
+                    pass.SortObjects();
 
-			if (lightmapPreset == null)
-			{
-				return(false);
-			}
+                    Sorted.Draw(pass);
+                }
+            }
+        }
 
-			LightmapLayer[] layerSettings = lightmapPreset.dayLayers.Get();
+        public static bool IsDrawing(Camera camera, LightmapPreset lightmapPreset) {
+            if (Lighting2D.DayLightingSettings.ShadowColor.a == 0) // <=
+            {
+                return (false);
+            }
 
-			if (layerSettings.Length < 1)
-			{
-				return(false);
-			}
+            if (lightmapPreset == null) {
+                return (false);
+            }
 
-			return(true);
-		}
-	}
+            LightmapLayer[] layerSettings = lightmapPreset.dayLayers.Get();
+
+            if (layerSettings.Length < 1) {
+                return (false);
+            }
+
+            return (true);
+        }
+    }
 }

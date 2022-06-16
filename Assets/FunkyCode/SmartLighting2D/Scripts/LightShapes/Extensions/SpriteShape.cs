@@ -15,12 +15,7 @@ namespace FunkyCode.LightShape {
 
         public override int GetSortingOrder() {
             SpriteRenderer spriteRenderer = GetSpriteRenderer();
-
-            if (spriteRenderer != null) {
-                return (spriteRenderer.sortingOrder);
-            }
-
-            return (0);
+            return spriteRenderer != null ? spriteRenderer.sortingOrder : 0;
         }
 
         public override List<Polygon2> GetPolygonsLocal() {
@@ -208,11 +203,7 @@ namespace FunkyCode.LightShape {
         }
 
         public SpriteRenderer GetSpriteRenderer() {
-            if (spriteRenderer != null) {
-                return spriteRenderer;
-            }
-
-            if (transform == null) {
+            if (spriteRenderer != null || transform == null) {
                 return spriteRenderer;
             }
 
@@ -226,7 +217,6 @@ namespace FunkyCode.LightShape {
         public Sprite GetOriginalSprite() {
             if (originalSprite == null) {
                 GetSpriteRenderer();
-
                 if (spriteRenderer != null) {
                     originalSprite = spriteRenderer.sprite;
                 }

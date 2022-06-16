@@ -23,7 +23,7 @@ MonoBehaviour:
       dayLayers:
         list:
         - id: 0
-          type: 0
+          type: 1
           sorting: 0
       lightLayers:
         list:
@@ -62,12 +62,12 @@ MonoBehaviour:
     coreAxis: 0
     projection: 0
   dayLightingSettings:
-    direction: 299
+    direction: 289
     ShadowColor: {r: 0, g: 0, b: 0, a: 1}
-    height: 2.44
+    height: 2
     bumpMap:
-      height: 2.04
-      strength: 1.57
+      height: 1.47
+      strength: 0.62
   layers:
     colliderLayers:
       names:

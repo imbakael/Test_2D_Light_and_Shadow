@@ -43,7 +43,7 @@ namespace FunkyCode.Utilities {
         }
 
         public Polygon2 ToWorldSpace(Transform transform) {
-            Polygon2 newPolygon = this.Copy();
+            Polygon2 newPolygon = Copy();
 
             newPolygon.ToWorldSpaceSelfUNIVERSAL(transform);
 
@@ -114,7 +114,7 @@ namespace FunkyCode.Utilities {
 
         public bool IsClockwise() {
             if (points.Length < 1) {
-                return (true);
+                return true;
             }
 
             double sum = 0;
@@ -130,7 +130,7 @@ namespace FunkyCode.Utilities {
                 A = B;
             }
 
-            return (sum > 0);
+            return sum > 0;
         }
 
         public void Normalize() {
@@ -139,17 +139,12 @@ namespace FunkyCode.Utilities {
             }
         }
 
-
-
-
-
-
         ///// Constructors - Polygon Creating //////
 
         static public Polygon2 CreateRect(Vector2 size) {
-            size = size / 2;
+            size /= 2;
 
-            Polygon2 polygon = new Polygon2(4);
+            var polygon = new Polygon2(4);
 
             polygon.points[0] = new Vector2(-size.x, -size.y);
             polygon.points[1] = new Vector2(size.x, -size.y);
@@ -158,13 +153,13 @@ namespace FunkyCode.Utilities {
 
             polygon.Normalize();
 
-            return (polygon);
+            return polygon;
         }
 
         static public Polygon2 CreateIsometric(Vector2 size) {
-            size = size / 2;
+            size /= 2;
 
-            Polygon2 polygon = new Polygon2(4);
+            var polygon = new Polygon2(4);
 
             polygon.points[0] = new Vector2(-size.x, size.y);
             polygon.points[1] = new Vector2(0, 0);
@@ -173,14 +168,13 @@ namespace FunkyCode.Utilities {
 
             polygon.Normalize();
 
-            return (polygon);
+            return polygon;
         }
 
         static public Polygon2 CreateHexagon(Vector2 size) {
-            size = size / 2;
+            size /= 2;
 
-            Polygon2 polygon = new Polygon2(6);
-
+            var polygon = new Polygon2(6);
 
             polygon.points[0] = new Vector2(-size.x, size.y);
             polygon.points[1] = new Vector2(-size.x, -size.y);
@@ -191,7 +185,7 @@ namespace FunkyCode.Utilities {
 
             polygon.Normalize();
 
-            return (polygon);
+            return polygon;
         }
 
         public Mesh CreateMesh(GameObject gameObject, Vector2 UVScale, Vector2 UVOffset, PolygonTriangulator2.Triangulation triangulation = PolygonTriangulator2.Triangulation.Advanced) {
@@ -206,46 +200,15 @@ namespace FunkyCode.Utilities {
 
             filter.sharedMesh = PolygonTriangulator2.Triangulate(this, UVScale, UVOffset, triangulation);
             if (filter.sharedMesh == null) {
-                UnityEngine.Object.Destroy(gameObject);
+                Object.Destroy(gameObject);
             }
 
-            return (filter.sharedMesh);
+            return filter.sharedMesh;
         }
 
         public Mesh CreateMesh(Vector2 UVScale, Vector2 UVOffset, PolygonTriangulator2.Triangulation triangulation = PolygonTriangulator2.Triangulation.Advanced) {
-            return (PolygonTriangulator2.Triangulate(this, UVScale, UVOffset, triangulation));
+            return PolygonTriangulator2.Triangulate(this, UVScale, UVOffset, triangulation);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public void ToWorldSpaceSelfUNIVERSAL(Transform transform) {
             switch (Lighting2D.CoreAxis) {
@@ -330,7 +293,7 @@ namespace FunkyCode.Utilities {
         }
 
         public bool PointInPoly(Vector2 point) {
-            return (Math2D.PointInPoly(point, this));
+            return Math2D.PointInPoly(point, this);
         }
     }
 }

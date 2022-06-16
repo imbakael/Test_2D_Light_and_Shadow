@@ -31,15 +31,11 @@ namespace FunkyCode.LightShape {
                 }
             }
 
-            return (Meshes);
+            return Meshes;
         }
 
         public override List<Polygon2> GetPolygonsLocal() {
-            if (LocalPolygons != null) {
-                return LocalPolygons;
-            }
-
-            if (transform == null) {
+            if (LocalPolygons != null || transform == null) {
                 return LocalPolygons;
             }
 
